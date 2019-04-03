@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SchoolMapper">
+    
+    <resultMap type="School" id="SchoolResult">
+        <result property="id"    column="id"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="schoolTool"    column="school_tool"    />
+        <result property="schoolMany"    column="school_many"    />
+        <result property="schoolUnit"    column="school_unit"    />
+        <result property="schoolTime"    column="school_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectSchoolVo">
+        select id, school_name, school_tool, school_many, school_unit, school_time, remark from sys_school
+    </sql>
+	
+    <select id="selectSchoolList" parameterType="School" resultMap="SchoolResult">
+        <include refid="selectSchoolVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="schoolName != null  and schoolName != '' "> and school_name = #{schoolName}</if>
+             <if test="schoolTool != null  and schoolTool != '' "> and school_tool = #{schoolTool}</if>
+             <if test="schoolMany != null "> and school_many = #{schoolMany}</if>
+             <if test="schoolUnit != null  and schoolUnit != '' "> and school_unit = #{schoolUnit}</if>
+             <if test="schoolTime != null "> and school_time = #{schoolTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectSchoolById" parameterType="Integer" resultMap="SchoolResult">
+        <include refid="selectSchoolVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchool" parameterType="School" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_school
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="schoolName != null  and schoolName != ''  ">school_name,</if>
+			<if test="schoolTool != null  and schoolTool != ''  ">school_tool,</if>
+			<if test="schoolMany != null  ">school_many,</if>
+			<if test="schoolUnit != null  and schoolUnit != ''  ">school_unit,</if>
+			<if test="schoolTime != null  ">school_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="schoolName != null  and schoolName != ''  ">#{schoolName},</if>
+			<if test="schoolTool != null  and schoolTool != ''  ">#{schoolTool},</if>
+			<if test="schoolMany != null  ">#{schoolMany},</if>
+			<if test="schoolUnit != null  and schoolUnit != ''  ">#{schoolUnit},</if>
+			<if test="schoolTime != null  ">#{schoolTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSchool" parameterType="School">
+        update sys_school
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="schoolName != null  and schoolName != ''  ">school_name = #{schoolName},</if>
+            <if test="schoolTool != null  and schoolTool != ''  ">school_tool = #{schoolTool},</if>
+            <if test="schoolMany != null  ">school_many = #{schoolMany},</if>
+            <if test="schoolUnit != null  and schoolUnit != ''  ">school_unit = #{schoolUnit},</if>
+            <if test="schoolTime != null  ">school_time = #{schoolTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteSchoolById" parameterType="Integer">
+        delete from sys_school where id = #{id}
+    </delete>
+	
+    <delete id="deleteSchoolByIds" parameterType="String">
+        delete from sys_school where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

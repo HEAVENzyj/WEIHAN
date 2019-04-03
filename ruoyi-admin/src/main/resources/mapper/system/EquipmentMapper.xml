@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EquipmentMapper">
+    
+    <resultMap type="Equipment" id="EquipmentResult">
+        <result property="id"    column="id"    />
+        <result property="eqId"    column="eq_id"    />
+        <result property="eqClass"    column="eq_class"    />
+        <result property="eqImportTime"    column="eq_import_time"    />
+        <result property="eqState"    column="eq_state"    />
+    </resultMap>
+	
+	<sql id="selectEquipmentVo">
+        select id, eq_id, eq_class, eq_import_time, eq_state from sys_equipment
+    </sql>
+	
+    <select id="selectEquipmentList" parameterType="Equipment" resultMap="EquipmentResult">
+        <include refid="selectEquipmentVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="eqId != null  and eqId != '' "> and eq_id = #{eqId}</if>
+             <if test="eqClass != null  and eqClass != '' "> and eq_class = #{eqClass}</if>
+             <if test="eqImportTime != null "> and eq_import_time = #{eqImportTime}</if>
+             <if test="eqState != null  and eqState != '' "> and eq_state = #{eqState}</if>
+         </where>
+    </select>
+    
+    <select id="selectEquipmentById" parameterType="Integer" resultMap="EquipmentResult">
+        <include refid="selectEquipmentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEquipment" parameterType="Equipment" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_equipment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="eqId != null  and eqId != ''  ">eq_id,</if>
+			<if test="eqClass != null  and eqClass != ''  ">eq_class,</if>
+			<if test="eqImportTime != null  ">eq_import_time,</if>
+			<if test="eqState != null  and eqState != ''  ">eq_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="eqId != null  and eqId != ''  ">#{eqId},</if>
+			<if test="eqClass != null  and eqClass != ''  ">#{eqClass},</if>
+			<if test="eqImportTime != null  ">#{eqImportTime},</if>
+			<if test="eqState != null  and eqState != ''  ">#{eqState},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateEquipment" parameterType="Equipment">
+        update sys_equipment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="eqId != null  and eqId != ''  ">eq_id = #{eqId},</if>
+            <if test="eqClass != null  and eqClass != ''  ">eq_class = #{eqClass},</if>
+            <if test="eqImportTime != null  ">eq_import_time = #{eqImportTime},</if>
+            <if test="eqState != null  and eqState != ''  ">eq_state = #{eqState},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteEquipmentById" parameterType="Integer">
+        delete from sys_equipment where id = #{id}
+    </delete>
+	
+    <delete id="deleteEquipmentByIds" parameterType="String">
+        delete from sys_equipment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

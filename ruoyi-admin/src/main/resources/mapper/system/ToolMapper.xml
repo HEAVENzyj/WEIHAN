@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ToolMapper">
+    
+    <resultMap type="Tool" id="ToolResult">
+        <result property="id"    column="id"    />
+        <result property="toolNumber"    column="tool_number"    />
+        <result property="toolName"    column="tool_name"    />
+        <result property="toolQuantity"    column="tool_quantity"    />
+        <result property="toolUnit"    column="tool_unit"    />
+        <result property="toolRemark"    column="tool_remark"    />
+    </resultMap>
+	
+	<sql id="selectToolVo">
+        select id, tool_number, tool_name, tool_quantity, tool_unit, tool_remark from sys_tool
+    </sql>
+	
+    <select id="selectToolList" parameterType="Tool" resultMap="ToolResult">
+        <include refid="selectToolVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="toolNumber != null "> and tool_number = #{toolNumber}</if>
+             <if test="toolName != null  and toolName != '' "> and tool_name = #{toolName}</if>
+             <if test="toolQuantity != null "> and tool_quantity = #{toolQuantity}</if>
+             <if test="toolUnit != null  and toolUnit != '' "> and tool_unit = #{toolUnit}</if>
+             <if test="toolRemark != null  and toolRemark != '' "> and tool_remark = #{toolRemark}</if>
+         </where>
+    </select>
+    
+    <select id="selectToolById" parameterType="Integer" resultMap="ToolResult">
+        <include refid="selectToolVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTool" parameterType="Tool" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_tool
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="toolNumber != null  ">tool_number,</if>
+			<if test="toolName != null  and toolName != ''  ">tool_name,</if>
+			<if test="toolQuantity != null  ">tool_quantity,</if>
+			<if test="toolUnit != null  and toolUnit != ''  ">tool_unit,</if>
+			<if test="toolRemark != null  and toolRemark != ''  ">tool_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="toolNumber != null  ">#{toolNumber},</if>
+			<if test="toolName != null  and toolName != ''  ">#{toolName},</if>
+			<if test="toolQuantity != null  ">#{toolQuantity},</if>
+			<if test="toolUnit != null  and toolUnit != ''  ">#{toolUnit},</if>
+			<if test="toolRemark != null  and toolRemark != ''  ">#{toolRemark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTool" parameterType="Tool">
+        update sys_tool
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="toolNumber != null  ">tool_number = #{toolNumber},</if>
+            <if test="toolName != null  and toolName != ''  ">tool_name = #{toolName},</if>
+            <if test="toolQuantity != null  ">tool_quantity = #{toolQuantity},</if>
+            <if test="toolUnit != null  and toolUnit != ''  ">tool_unit = #{toolUnit},</if>
+            <if test="toolRemark != null  and toolRemark != ''  ">tool_remark = #{toolRemark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteToolById" parameterType="Integer">
+        delete from sys_tool where id = #{id}
+    </delete>
+	
+    <delete id="deleteToolByIds" parameterType="String">
+        delete from sys_tool where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ToolServiceMapper">
+    
+    <resultMap type="ToolService" id="ToolServiceResult">
+        <result property="id"    column="id"    />
+        <result property="serviceSchool"    column="service_school"    />
+        <result property="serviceName"    column="service_name"    />
+        <result property="serviceNumber"    column="service_number"    />
+        <result property="serviceWho"    column="service_who"    />
+        <result property="serviceTime"    column="service_time"    />
+        <result property="serviceResult"    column="service_result"    />
+        <result property="comment"    column="comment"    />
+    </resultMap>
+	
+	<sql id="selectToolServiceVo">
+        select id, service_school, service_name, service_number, service_who, service_time, service_result, comment from sys_tool_service
+    </sql>
+	
+    <select id="selectToolServiceList" parameterType="ToolService" resultMap="ToolServiceResult">
+        <include refid="selectToolServiceVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="serviceSchool != null  and serviceSchool != '' "> and service_school = #{serviceSchool}</if>
+             <if test="serviceName != null  and serviceName != '' "> and service_name = #{serviceName}</if>
+             <if test="serviceNumber != null "> and service_number = #{serviceNumber}</if>
+             <if test="serviceWho != null  and serviceWho != '' "> and service_who = #{serviceWho}</if>
+             <if test="serviceTime != null "> and service_time = #{serviceTime}</if>
+             <if test="serviceResult != null  and serviceResult != '' "> and service_result = #{serviceResult}</if>
+             <if test="comment != null  and comment != '' "> and comment = #{comment}</if>
+         </where>
+    </select>
+    
+    <select id="selectToolServiceById" parameterType="Integer" resultMap="ToolServiceResult">
+        <include refid="selectToolServiceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertToolService" parameterType="ToolService" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_tool_service
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="serviceSchool != null  and serviceSchool != ''  ">service_school,</if>
+			<if test="serviceName != null  and serviceName != ''  ">service_name,</if>
+			<if test="serviceNumber != null  ">service_number,</if>
+			<if test="serviceWho != null  and serviceWho != ''  ">service_who,</if>
+			<if test="serviceTime != null  ">service_time,</if>
+			<if test="serviceResult != null  and serviceResult != ''  ">service_result,</if>
+			<if test="comment != null  and comment != ''  ">comment,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="serviceSchool != null  and serviceSchool != ''  ">#{serviceSchool},</if>
+			<if test="serviceName != null  and serviceName != ''  ">#{serviceName},</if>
+			<if test="serviceNumber != null  ">#{serviceNumber},</if>
+			<if test="serviceWho != null  and serviceWho != ''  ">#{serviceWho},</if>
+			<if test="serviceTime != null  ">#{serviceTime},</if>
+			<if test="serviceResult != null  and serviceResult != ''  ">#{serviceResult},</if>
+			<if test="comment != null  and comment != ''  ">#{comment},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateToolService" parameterType="ToolService">
+        update sys_tool_service
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serviceSchool != null  and serviceSchool != ''  ">service_school = #{serviceSchool},</if>
+            <if test="serviceName != null  and serviceName != ''  ">service_name = #{serviceName},</if>
+            <if test="serviceNumber != null  ">service_number = #{serviceNumber},</if>
+            <if test="serviceWho != null  and serviceWho != ''  ">service_who = #{serviceWho},</if>
+            <if test="serviceTime != null  ">service_time = #{serviceTime},</if>
+            <if test="serviceResult != null  and serviceResult != ''  ">service_result = #{serviceResult},</if>
+            <if test="comment != null  and comment != ''  ">comment = #{comment},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteToolServiceById" parameterType="Integer">
+        delete from sys_tool_service where id = #{id}
+    </delete>
+	
+    <delete id="deleteToolServiceByIds" parameterType="String">
+        delete from sys_tool_service where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

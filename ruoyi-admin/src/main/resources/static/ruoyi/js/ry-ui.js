@@ -648,6 +648,13 @@
             	});
             	
             },
+            //更多,详情跳转
+            index: function(id) {
+        		var url="myban.html";
+                window.location.href="myban.html";
+                window.navigate("myban.html");
+				return url;
+            },
             // 批量删除信息
             removeAll: function() {
         		var rows = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-toolService-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">器材所在学校：</label>
+				<div class="col-sm-8">
+					<input id="serviceSchool" name="serviceSchool" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">需维修器材名称：</label>
+				<div class="col-sm-8">
+					<input id="serviceName" name="serviceName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">需维修器材编号：</label>
+				<div class="col-sm-8">
+					<input id="serviceNumber" name="serviceNumber" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">主要维修负责人：</label>
+				<div class="col-sm-8">
+					<input id="serviceWho" name="serviceWho" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">维修日期：</label>
+				<div class="col-sm-8">
+					<input id="serviceTime" name="serviceTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">维修是否完成：</label>
+				<div class="col-sm-8">
+					<input id="serviceResult" name="serviceResult" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="comment" name="comment" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "system/toolService"
+		$("#form-toolService-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-toolService-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

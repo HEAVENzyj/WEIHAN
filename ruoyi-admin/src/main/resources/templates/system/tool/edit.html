@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tool-edit" th:object="${tool}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">器材编号：</label>
+				<div class="col-sm-8">
+					<input id="toolNumber" name="toolNumber" th:field="*{toolNumber}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">器材名称：</label>
+				<div class="col-sm-8">
+					<input id="toolName" name="toolName" th:field="*{toolName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">器材数量：</label>
+				<div class="col-sm-8">
+					<input id="toolQuantity" name="toolQuantity" th:field="*{toolQuantity}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">单位：</label>
+				<div class="col-sm-8">
+					<input id="toolUnit" name="toolUnit" th:field="*{toolUnit}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="toolRemark" name="toolRemark" th:field="*{toolRemark}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "system/tool";
+		$("#form-tool-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tool-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>
